@@ -1,0 +1,100 @@
+This repository contains all codes and relevant resources used in the manuscript "Peri-urban vegetation-induced evapotranspiration bring abouts urban precipitation". The entire analytical workflow consists of four sequential steps, followed by a series of analysis added during revision.
+
+Step 1: Trend Analysis and Placebo Test
+Main script:Step1_compute_Pur_LAIvi_Trends_PlaceboTest.m
+Purpose:
+Calculates linear trends and significance (p-values) of annual urban precipitation (Pur; Fig. 1a) and peri-urban LAI (LAIperi; Fig. 1b) from 2000 to 2021.
+Performs placebo tests (Fig.1d) to assess the empirical significance of LAI–precipitation linkages using 1,000 randomized permutations.
+Output:
+Excel files containing trend estimates, p-values, and placebo test results.
+
+
+Step 2: ET Modeling and Vegetation-Induced Differences
+① Step2_PTJPLim_Model/
+Contains MATLAB implementation of the improved Priestley–Taylor Jet Propulsion Laboratory model (PT-JPLim) for global evapotranspiration (ET) estimation.
+ET components estimated:
+Interception evaporation (Ei)
+Soil evaporation (Es)
+Transpiration (Et)
+Urban evaporation (Eu)
+
+② Step2_Results_deltaETperi/
+Contains annual vegetation-induced ET differences in peri-urban areas (ΔETperi), calculated as the difference between real- and fixed-vegetation scenarios using ArcGIS Zonal Statistics.
+
+③ Step2_compute_deltaETperi_Trends.m
+Converts PT-JPLim results to 0.05° spatial resolution (Fig.2a).
+Computes temporal trends and statistical significance of ΔETperi (Fig.2b).
+Output:
+Excel files summarizing annual ΔETperi values and their trends.
+
+
+Step 3: Moisture Transport via UTrack Model
+Input references:
+city_latlon.xlsx: Latitude and longitude of 1,029 cities
+Step3_ID_ORIG.xlsx: Mapping between city ID and peri-urban area ID
+
+① Step3_UtrackModel_annual.py
+Processes 12-month climatology files per city to compute annual average source contributions of precipitation.
+
+② Step3_UtrackModel_monthly.py
+Similar to above but retains monthly resolution for temporal analysis.
+
+③ Step3_UtrackModel_resample.py
+Resamples UTrack outputs from 0.5° to 0.05° spatial resolution via bilinear interpolation.
+Performs normalization to conserve total moisture contribution.
+
+④ Step3_compute_deltaPur_Trends_RPR_RPR_T.m
+Uses UTrack model outputs to compute:
+ΔPur: Precipitation change attributed to vegetation-driven ET and moisture transport (Fig. 3a)
+Trends and p-values of ΔPur (Fig. 3b)
+RPR: Normalized ΔPur as % of baseline precipitation (Fig. 3c)
+RPR-T: Trend scale RPR, contribution of vegetation-induced change to total precipitation trend (Fig. 3d)
+Output:
+Excel files with multi-metric city-level indicators.
+
+
+Step 4: Urban Classification and Group-wise Analysis
+① compute_ΔLAI-wind direction coherence.py
+Analyzes coherence between spatial LAI trends and dominant wind directions.
+
+② compute_Vegetation structure continuity.py
+Computes vegetation structure continuity using a connectivity index from LAI spatial patterns.
+
+③ Step4_Groups.xlsx
+Records the classification of all cities into ten categories based on ΔLAI–wind coherence, vegetation structure, and resulting RPR (RPR-T) metrics.
+Fields include:
+City ID, RPR (RPR-T), Areal RPR (Areal RPR-T), and classification category.
+
+④ Step4_compute_City_group_tests.m
+Conducts group-wise statistical tests for RPR and RPR-T across different city types.
+Output:
+Summary statistics written to Excel (used for Fig. 4 panels).
+
+
+Revision-added Analysis: Causal Direction, CO₂-Separated Controls, and Temporal Patterns
+· · · Temporal Dynamics and Lag Analyses
+① Five-year moving correlation analysis.py
+Evaluates the temporal robustness of the coupling between LAIperi and Pur using a five-year moving correlation window.
+② Lag analysis.py
+Examines the temporal response and potential delay between changes in Pur and LAIperi through a lag analysis.
+
+· · · Causal Direction Analysis
+③ CausalDirection Analysis_Transfer Entropy.py
+Computes Transfer Entropy (TE) to quantify the directional information flow between LAIperi and Pur across 1,029 cities.
+④ Causal‐Direction Analysis_ Panel Granger causality test.py
+Performs a panel Granger causalitytest to statistically evaluate the causal direction  between LAIperi and Pur across 1,029 cities.
+
+· · · CO₂-Separated Statistical Controls
+⑤ CO₂-separated statistical controls.py
+Separates the vegetation–precipitation linkage from the potential confounding influence of rising atmospheric CO₂ concentrations. This script conducts several statistical analyses, including Pearson correlation, partial correlation (with atmospheric CO₂ as a control variable), and standardized β coefficient analysis.
+
+
+System Requirements
+MATLAB R2021a or later
+Python 3.8+ with xarray, numpy, netCDF4, scipy
+ArcGIS Pro (for Zonal Statistics)
+Microsoft Excel (for result exports and integration)
+
+Reproducibility Note
+All scripts are annotated with detailed comments and structured to allow modular execution. Intermediate and final outputs are provided in each folder for validation and visualization.
+*For questions or issues, please contact the corresponding author.*
