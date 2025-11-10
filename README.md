@@ -1,8 +1,14 @@
 This repository contains all scripts and data processing tools used in the study "Peri-urban vegetation-induced evapotranspiration brings about urban precipitatio changes" submitted to Nature Cities. 
+
 The workflow consists of four sequential steps, followed by a series of analyses added during revision:
+
 · Trend analysis and placebo testing (Step1): Computes trends and statistical significance of urban precipitation (Pur) and peri-urban LAI, along with placebo tests to validate causal links.
 · Evapotranspiration modeling (Step2): Uses the PT-JPLim model to estimate vegetation-induced changes in evapotranspiration (ΔETperi) under real and fixed vegetation scenarios.
+
 · Atmospheric moisture tracking (Step3): Applies the UTrack model to quantify how peri-urban ET contributes to urban precipitation, followed by resampling and trend analysis of derived indicators (ΔPur, RPR, RPR-T).
+
 · Urban classification and group-wise testing (Step4): Classifies cities based on biophysical and atmospheric attributes, and evaluates the heterogeneity in vegetation–precipitation coupling across groups.
+
 · Revision-added Analysis: Introduces additional analyses conducted during revision and to strengthen the mechanistic understanding of the vegetation–precipitation coupling. These include causal direction, CO₂-separated controls, and temporal patterns analysis.
+
 The scripts are written in MATLAB and Python, and include all necessary inputs (e.g., city coordinates) and output structures (e.g., Excel, NetCDF). This repository ensures reproducibility of all main figures and statistical analyses in the manuscript.
