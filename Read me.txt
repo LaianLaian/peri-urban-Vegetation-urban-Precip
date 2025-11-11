@@ -60,7 +60,7 @@ Analyzes coherence between spatial LAI trends and dominant wind directions.
 ② compute_Vegetation structure continuity.py
 Computes vegetation structure continuity using a connectivity index from LAI spatial patterns.
 
-③ Step4_Groups.xlsx
+③ Step4_Groups_RPR_RPR-T.xlsx
 Records the classification of all cities into ten categories based on ΔLAI–wind coherence, vegetation structure, and resulting RPR (RPR-T) metrics.
 Fields include:
 City ID, RPR (RPR-T), Areal RPR (Areal RPR-T), and classification category.
@@ -97,4 +97,5 @@ Microsoft Excel (for result exports and integration)
 
 Reproducibility Note
 All scripts are annotated with detailed comments and structured to allow modular execution. Intermediate and final outputs are provided in each folder for validation and visualization.
+
 *For questions or issues, please contact the corresponding author.*
