@@ -1,69 +1,71 @@
-This repository contains all codes and relevant resources used in the manuscript "Peri-urban vegetation-induced evapotranspiration bring abouts urban precipitation". The entire analytical workflow consists of four sequential steps, followed by a series of analysis added during revision.
+This repository contains all codes and relevant resources used in the manuscript "Peri-urban vegetation change-induced evapotranspiration brings about urban precipitation variability". The entire analytical workflow consists of four sequential steps, followed by a series of analysis added during revision.
 
 Step 1: Trend Analysis and Placebo Test
-Main script:Step1_compute_Pur_LAIvi_Trends_PlaceboTest.m
+Main script:Step1_compute_Pur_LAIperi_Trends_PlaceboTest.m
 Purpose:
-Calculates linear trends and significance (p-values) of annual urban precipitation (Pur; Fig. 1a) and peri-urban LAI (LAIperi; Fig. 1b) from 2000 to 2021.
-Performs placebo tests (Fig.1d) to assess the empirical significance of LAI–precipitation linkages using 1,000 randomized permutations.
+Calculates linear trends and significance (p-values) of annual urban precipitation (Pur; Fig. 1b) and peri-urban LAI (LAIperi; Fig. 1c) from 2000 to 2021.
+Performs placebo tests (Fig.1d) to assess the empirical significance of LAIperi–Pur linkages using 1,000 randomized permutations.
 Output:
-Excel files containing trend estimates, p-values, and placebo test results.
+Excel files containing trend estimates and associated p-values, and figures showing the results of the placebo tests.
 
 
-Step 2: ET Modeling and Vegetation-Induced Differences
+Step 2: ET Modeling and Vegetation change-induced ET variability
+The Step2 directory contains one main script and two subfolders.
 ① Step2_PTJPLim_Model/
-Contains MATLAB implementation of the improved Priestley–Taylor Jet Propulsion Laboratory model (PT-JPLim) for global evapotranspiration (ET) estimation.
-ET components estimated:
-Interception evaporation (Ei)
-Soil evaporation (Es)
-Transpiration (Et)
-Urban evaporation (Eu)
+Contains MATLAB implementation of the improved Priestley–Taylor Jet Propulsion Laboratory model (PT-JPLim) used to estimate evapotranspiration (ET). ET components estimated: Interception evaporation (Ei), soil evaporation (Es), transpiration (Et),  and urban evaporation (Eu)
+This folder includes:
+ReadMe.txt: Description of model structure and input requirements
+Step2_PTJPLim_Model_calcu_Ei.m: Interception evaporation (Ei)
+Step2_PTJPLim_Model_calcu_Es.m: Soil evaporation (Es)
+Step2_PTJPLim_Model_calcu_Eu.m: Urban evaporation (Eu)
+Step2_PTJPLim_Model_calcu_ETall.m: Total ET aggregation
 
 ② Step2_Results_deltaETperi/
-Contains annual vegetation-induced ET differences in peri-urban areas (ΔETperi), calculated as the difference between real- and fixed-vegetation scenarios using ArcGIS Zonal Statistics.
+Contains annual vegetation change-induced ET variability in peri-urban areas (ΔETperi) for each year from 2000 to 2021 (e.g., deltaETperi2000.xls to deltaETperi2021.xls). ΔETperi is calculated as the difference between real- and fixed-vegetation scenarios using ArcGIS Zonal Statistics.
 
 ③ Step2_compute_deltaETperi_Trends.m
-Converts PT-JPLim results to 0.05° spatial resolution (Fig.2a).
-Computes temporal trends and statistical significance of ΔETperi (Fig.2b).
+Converts PT-JPLim ET results to 0.05° spatial resolution (Fig.2a).
+Computes temporal trends and associated p-values of ΔETperi (Fig.2b).
 Output:
-Excel files summarizing annual ΔETperi values and their trends.
+Excel files summarizing annual ΔETperi values, their linear trends, and  associated p-values.
 
 
 Step 3: Moisture Transport via UTrack Model
 Input references:
 city_latlon.xlsx: Latitude and longitude of 1,029 cities
-Step3_ID_ORIG.xlsx: Mapping between city ID and peri-urban area ID
+Step3_ID_ORIG.xlsx: Mapping between city IDs and peri-urban area IDs
 
 ① Step3_UtrackModel_annual.py
-Processes 12-month climatology files per city to compute annual average source contributions of precipitation.
+Processes city-specific12-month climatology files to compute annual average source contributions of precipitation.
 
 ② Step3_UtrackModel_monthly.py
 Similar to above but retains monthly resolution for temporal analysis.
 
 ③ Step3_UtrackModel_resample.py
-Resamples UTrack outputs from 0.5° to 0.05° spatial resolution via bilinear interpolation.
+Resamples UTrack outputs from 0.5° to 0.05° spatial resolution using bilinear interpolation.
 Performs normalization to conserve total moisture contribution.
 
 ④ Step3_compute_deltaPur_Trends_RPR_RPR_T.m
-Uses UTrack model outputs to compute:
-ΔPur: Precipitation change attributed to vegetation-driven ET and moisture transport (Fig. 3a)
-Trends and p-values of ΔPur (Fig. 3b)
+Uses UTrack model outputs to compute city-level precipitation response indicators, including:
+ΔPur: Precipitation change attributed to vegetation change-induced ET and moisture transport (Fig. 3a)
+Trends and associated p-values of ΔPur (Fig. 3b)
 RPR: Normalized ΔPur as % of baseline precipitation (Fig. 3c)
-RPR-T: Trend scale RPR, contribution of vegetation-induced change to total precipitation trend (Fig. 3d)
+RPR-T: Trend scale RPR, contribution of vegetation change-induced precipitation change trend to total precipitation trend (Fig. 3d)
 Output:
-Excel files with multi-metric city-level indicators.
+Excel files containing city-level precipitation reponse indicators, their trends, and associated p-values.
 
 
-Step 4: Urban Classification and Group-wise Analysis
+Step 4: Urban Classification and Category-based Analysis Analysis
 ① compute_ΔLAI-wind direction coherence.py
-Analyzes coherence between spatial LAI trends and dominant wind directions.
+Quantifies the directional alignment between the dominant axis of peri-urban vegetation change (ΔLAI) and prevailing wind direction.
 
 ② compute_Vegetation structure continuity.py
-Computes vegetation structure continuity using a connectivity index from LAI spatial patterns.
+Computes vegetation structure continuity using a connectivity index derived from LAI spatial patterns.
 
 ③ Step4_Groups_RPR_RPR-T.xlsx
 Records the classification of all cities into ten categories based on ΔLAI–wind coherence, vegetation structure, and resulting RPR (RPR-T) metrics.
 Fields include:
-City ID, RPR (RPR-T), Areal RPR (Areal RPR-T), and classification category.
+City ID, RPR, RPR(Fig.4f), RPR-T, RPR-T(Fig.4f), and classification category.
 
 ④ Step4_compute_City_group_tests.m
 Conducts group-wise statistical tests for RPR and RPR-T across different city types.
@@ -97,5 +99,4 @@ Microsoft Excel (for result exports and integration)
 
 Reproducibility Note
 All scripts are annotated with detailed comments and structured to allow modular execution. Intermediate and final outputs are provided in each folder for validation and visualization.
-
 *For questions or issues, please contact the corresponding author.*
